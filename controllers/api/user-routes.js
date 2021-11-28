@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const { User, Post, Comment } = require("../../models");
 
+const session = require('express-session');
+const { sequelize } = require('../../models/User');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
 // Get all users
 router.get('/', (req, res) => {
   User.findAll({
@@ -13,7 +17,7 @@ router.get('/', (req, res) => {
     });
 });
 
-// Get /api / users/ 1
+// Get user by ID
 router.get('/:id', (req, res) => {
   User.findOne({
     attributes: { exclude: ['password'] },
@@ -28,7 +32,7 @@ router.get('/:id', (req, res) => {
       // include the Comment model here:
       {
         model: Comment,
-        attributes: ['id', 'comment_text', 'created_at'],
+        attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
         include: {
           model: Post,
           attributes: ['title']
@@ -49,14 +53,14 @@ router.get('/:id', (req, res) => {
     });
 });
 
-// POST /api / users
+// Create New User/Signup
 router.post('/', (req, res) => {
-  // expects {username: 'Lernantino'}, email: 'lernantino@gmail.com', password: 'password1234'}
   User.create({
     username: req.body.username,
     email: req.body.email,
     password: req.body.password
   })
+  // send back data as confirmation and save the session
   .then(dbUserData => {
     req.session.save(() => {
       req.session.user_id = dbUserData.id;
@@ -72,8 +76,9 @@ router.post('/', (req, res) => {
     });
 });
 
+// login
 router.post('/login', (req, res) => {
-   // expects {email: 'lernantino@gmail.com', password: 'password1234'}
+  // Find user if exist, by email
   User.findOne({
     where: {
       email: req.body.email
@@ -102,6 +107,7 @@ router.post('/login', (req, res) => {
   });
 });
 
+// Logout
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
@@ -113,11 +119,8 @@ router.post('/logout', (req, res) => {
   }
 });
 
-// PUT /api/users/1
+// Update user by ID
 router.put('/:id', (req, res) => {
-  // expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
-
-  // pass in req.body instead to only update what's passed through
   User.update(req.body, {
     individualHooks: true,
     where: {
@@ -137,7 +140,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// DELETE /api/users/1
+// Delete user by ID
 router.delete('/:id', (req, res) => {
   User.destroy({
     where: {
