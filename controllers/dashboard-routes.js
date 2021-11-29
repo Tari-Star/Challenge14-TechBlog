@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
+
 const { Post, User, Comment} = require('../models');
 const withAuth = require('../utils/auth');
 
@@ -32,7 +33,7 @@ router.get('/', withAuth, (req, res) => {
         ]
     })
     .then(dbPostData => {
-        const post = dbPostData.map(post => post.get({ plain: true }));
+        const posts = dbPostData.map(post => post.get({ plain: true }));
         res.render('dashboard', { posts, loggedIn: true });
     })
     .catch(err => {

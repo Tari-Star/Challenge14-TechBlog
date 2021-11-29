@@ -3,6 +3,7 @@ const { User, Post, Comment } = require("../../models");
 
 const session = require('express-session');
 const withAuth = require('../../utils/auth');
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Get all users
@@ -108,7 +109,7 @@ router.post('/login', (req, res) => {
 });
 
 // Logout
-router.post('/logout', (req, res) => {
+router.post('/logout', withAuth, (req, res) => {
   if (req.session.loggedIn) {
     req.session.destroy(() => {
       res.status(204).end();
@@ -128,7 +129,7 @@ router.put('/:id', withAuth, (req, res) => {
     }
   })
     .then(dbUserData => {
-      if (!dbUserData) {
+      if (!dbUserData[0]) {
         res.status(404).json({ message: 'No user found with this id' });
         return;
       }
