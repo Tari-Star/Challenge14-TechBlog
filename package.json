@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "watch": "nodemon server.js",
     "seeds": "seeds/index.js"
   },
   "repository": {
@@ -29,7 +28,5 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.12.0-alpha.1"
   },
-  "devDependencies": {
-    "nodemon": "^2.0.6"
-  }
+  "devDependencies": {}
 }
