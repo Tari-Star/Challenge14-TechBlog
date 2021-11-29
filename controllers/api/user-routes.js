@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { User, Post, Comment } = require("../../models");
 
 const session = require('express-session');
+const withAuth = require('../../utils/auth');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // Get all users
@@ -119,7 +120,7 @@ router.post('/logout', (req, res) => {
 });
 
 // Update user by ID
-router.put('/:id', (req, res) => {
+router.put('/:id', withAuth, (req, res) => {
   User.update(req.body, {
     individualHooks: true,
     where: {
@@ -140,7 +141,7 @@ router.put('/:id', (req, res) => {
 });
 
 // Delete user by ID
-router.delete('/:id', (req, res) => {
+router.delete('/:id', withAuth, (req, res) => {
   User.destroy({
     where: {
       id: req.params.id
