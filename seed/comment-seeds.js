@@ -32,9 +32,9 @@ const commentData = [
         user_id: 5
     },
 ];
-const seedComments = () => Comment.bulkCreate(commentData);
+const seedComment = () => Comment.bulkCreate(commentData);
 
-module.exports = seedComments;
+module.exports = seedComment;
 
 
 
