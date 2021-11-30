@@ -20,7 +20,7 @@
 
 ***HEROKU***
 
-* Deployed link:  [https://chal14techblog.herokuapp.com/](https://https://chal14techblog.herokuapp.com/)
+* Deployed link:  [https://chal14techblog.herokuapp.com/](https://chal14techblog.herokuapp.com/)
 
 
 ***GITHUB***
