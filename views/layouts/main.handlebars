@@ -15,22 +15,22 @@
         <a href="/">The Tech Blog</a>
       </h1>
       <nav>
+           {{#if loggedIn}}
         <span><a href="/">Home</a></span>
-          {{#if loggedIn}}
           <a href="/dashboard">Dashboard</a>
-          <button id="logout" class="btn-no-style">Logout</button>
-          {{else}}
+            <button id="logout" class="btn-no-style">Logout</button>
+            {{else}}
+            <span><a href="/">Home</a></span>
+          <a href="/dashboard">Dashboard</a>
           <a href="/login">Login</a>
-          {{/if}}
+          <button id="logout" class="btn-no-style">Logout</button>
+           {{/if}}
       </nav>
     </header>
     <main>
       {{{ body }}}
     </main>
-     <footer>
-      Thanks for visiting!
-    </footer>
-  </div>
+   </div>
   
   {{#if loggedIn}}
   <script src="/javascript/logout.js"></script>
