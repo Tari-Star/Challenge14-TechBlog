@@ -30,7 +30,7 @@
 
 ## Demo:
 
-![demo](./images/)
+![demo](./images/Cha14.png)
 
 
 
